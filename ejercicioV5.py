@@ -1,3 +1,4 @@
+import math
 
 class Pajaro():
     def __init__(self,ira,fuerza):
@@ -143,9 +144,11 @@ class Huevo():
     def peso(self):
         return self.__peso
 
-class Isla():
+class IslaPajaro():
     def __init__(self):
         self.__pajaros = []
+        self.__pajarosHomenajeados = []
+        self.__eventos = []
     
     def agregarPajaro(self,pajaro):
         self.__pajaros.append(pajaro)
@@ -175,29 +178,188 @@ class Isla():
         for pajaro in self.__pajaros:
             pajaro.ira-=cantidad
 
-    def evento(self,evento):
+    def enojarATodosLosPajaros(self):
+        for pajaro in self.__pajaros:
+            pajaro.enojarse()
+
+    def enojarPajarosSegun(self,cantidad):
+        _ , cantidadAEnojar = math.modf(cantidad/100)
+        inicial = 0
+        while inicial < cantidadAEnojar:
+            self.enojarATodosLosPajaros()
+            inicial+=1
+
+    def enojarHomenajeados(self):
+        for homenajeado in self.__pajarosHomenajeados:
+            homenajeado.enojarse()
+
+    def realizarEvento(self,evento):
         if isinstance(evento,SesionManejoIra):
             self.reducirIraEn(5)
+        if isinstance(evento,InvasionDeCerditos):
+            self.enojarPajarosSegun(evento.cantidad)
+        if isinstance(evento,FiestaSorpresa):
+            self.enojarHomenajeados()
+        if isinstance(evento,EventosDesafortunados):
+            self.__realizarEventos()
 
+    def realizarEventos(self):
+        for evento in self.__eventos:
+            self.realizarEvento(evento)
 
 class SesionManejoIra():
     def __init__(self):
         pass
 
+class InvasionDeCerditos():
+    def __init__(self,cantidad):
+        self.__cantidad = cantidad
 
+    @property
+    def cantidad(self):
+        return self.__cantidad
+
+    @cantidad.setter
+    def cantidad(self,cantidad):
+        self.__cantidad = cantidad
+
+class FiestaSorpresa():
+    def __init__(self):
+        pass
+
+class EventosDesafortunados():
+    def __init__(self):
+        pass
+
+class IslaCerdito():
+    def __init__(self):
+        self.__paredes = []
+        self.__cerditos = []
+    
+    def agregarPared(self,pared):
+        self.__paredes.append(pared)
+    
+    def agregarCerdito(self,cerdito):
+        self.__cerditos.append(cerdito)
+
+class Pared():
+    def __init__(self,ancho):
+        self.__ancho = ancho
+        self.__resistencia = 0
+    
+    @property
+    def ancho(self):
+        return self.__ancho
+
+    @property
+    def resistencia(self):
+        return self.__resistencia
+
+
+class Vidrio(Pared):
+    def __init__(self,ancho):
+        super().__init__(ancho)
+        self.definirResistencia()
+
+    def definirResistencia(self):
+        self.resistencia = 10 * self.ancho
+
+class Madera(Pared):
+    def __init__(self,ancho):
+        super().__init__(ancho)
+        self.definirResistencia()
+
+    def definirResistencia(self):
+        self.resistencia = 25 * self.ancho
+
+class Piedra(Pared):
+    def __init__(self,ancho):
+        super().__init__(ancho)
+        self.definirResistencia()
+
+    def definirResistencia(self):
+        self.resistencia= 50 * self.ancho
+
+class Cerdito():
+    def __init__(self):
+        self.__resistencia = 0
+    
+    @property
+    def resistencia(self):
+        return self.__resistencia
+    
+    
+
+class Obrero(Cerdito):
+    def __init__(self):
+        self.resistencia = 50
+
+class Armado(Cerdito):
+    def __init__(self):
+        self.__armas = []
+        self.definirResistencia()
+    
+    def agregarArma(self,arma):
+        self.__armas.append(arma)
+
+    def definirResistencia(self):
+        self.resistencia = self.totalResistenciaCascos() +self.totalResistenciaEscudos
+    
+    def cascos(self):
+        cascos = []
+        for arma in self.__armas:
+            if isinstance(arma,Casco):
+                cascos.append(arma)
+        return cascos
+    
+    def escudos(self):
+        escudos = []
+        for escudo in self.__armas:
+            if isinstance(escudo,Escudo):
+                escudos.append(escudo)
+        return escudos
+    
+    def totalResistenciaEscudos(self):
+        total = 0
+        for escudo in self.escudos():
+            total+=escudo.resistencia
+        return total
+
+    def totalResistenciaCascos(self):
+        total = 0
+        for casco in self.cascos():
+            total+=casco.resistencia
+        return total
+
+class Arma():
+    def __init__(self,resistencia):
+        self.__resistencia = resistencia
+    
+    @property
+    def resistencia(self):
+        return self.__resistencia
+
+class Casco(Arma):
+    def __init__(self,resistencia):
+        super().__init__(resistencia)
+
+class Escudo(Arma):
+    def __init__(self,resistencia):
+        super().__init__(resistencia)
 
 
 
 pajaro1 = Comun(400)
 pajaro2 = Comun(300)
 pajaro3 = Comun(200)
-evento = SesionManejoIra()
-isla = Isla()
+evento1 = InvasionDeCerditos(100)
+isla = IslaPajaro()
 isla.agregarPajaro(pajaro1)
 isla.agregarPajaro(pajaro2)
 isla.agregarPajaro(pajaro3)
 isla.listarFuertes()
 
-isla.evento(evento)
+isla.realizarEvento(evento1)
+print("---------------------------------")
 
 isla.listarFuertes()
