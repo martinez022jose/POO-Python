@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Markazi+Text:wght@450');
+
+body{
+    font-family: 'Markazi Text';
+    font-weight: 400;
+}
+
+*{
+	margin:0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+section{
+    margin:auto;
+    width: 70%;
+
+}
+section #hojaCV{
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    width: 100%;
+    
+}
+
+/*Trabajamos sobre el titulo*/
+
+section #hojaCV #encabezado{
+    border-bottom: 4px solid #609F89;
+}
+
+section #hojaCV #encabezado #titulo{
+    display: flex;
+    flex-direction: column;
+    margin-left: 120px;
+    font-size: 90px;
+}
+
+
+section #hojaCV #encabezado #titulo #parteOne{
+    display: flex;
+}
+
+section #hojaCV #encabezado #titulo #parteTwo{
+    margin-left: 15px;
+    color: #609F89
+}
+
+section #hojaCV #encabezado #titulo #parteThree{
+    color: #609F89
+}
+
+/*Trabajamos sobre el cuerpo*/
+
+section #hojaCV #cuerpo{
+    display: flex;
+   
+}
+
+section #hojaCV #cuerpo h3{
+    color: #609F89
+}
+
+section #hojaCV #cuerpo p{
+    color: black;
+}
+
+/*Trabajamos sobre columna izquierda*/
+
+section #hojaCV #cuerpo #columnaIzquierda{
+    border-right: 3px solid #609F89;
+    width: 50%;
+    position: relative;
+    
+}
+
+section #hojaCV #cuerpo #columnaIzquierda .primeraCaja{
+    position: absolute;
+    top: 10px;
+    left: 0px;
+}
+
+section #hojaCV #cuerpo #columnaIzquierda .primeraCaja h3{
+    padding-left: 200px;
+}
+
+section #hojaCV #cuerpo #columnaIzquierda .primeraCaja p{
+    padding-left: 40px;
+    padding-right: 5px;
+    padding-top: 20px;
+    
+}
+
+section #hojaCV #cuerpo #columnaIzquierda .segundaCaja{
+    position: absolute;
+    top: 40%;
+    left: 0px;
+}
+
+section #hojaCV #cuerpo #columnaIzquierda .segundaCaja h3{
+    padding-top: 20px;
+    padding-left: 220px;
+}
+
+section #hojaCV #cuerpo #columnaIzquierda .segundaCaja p{
+    padding-left: 40px;
+    padding-right: 10px;
+}
+
+section #hojaCV #cuerpo #columnaIzquierda .segundaCaja .secPrincipal{
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+
+section #hojaCV #cuerpo #columnaIzquierda .terceraCaja{
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+
+section #hojaCV #cuerpo #columnaIzquierda .terceraCaja h3{
+    padding-left: 210px;
+    
+}
+
+section #hojaCV #cuerpo #columnaIzquierda .terceraCaja ul{
+    padding-left: 40px;
+    padding-bottom: 8px;
+}
+
+
+section #hojaCV #cuerpo h3{
+    margin-bottom: 10px;
+    font-size: 23px;
+}
+
+/*Trabajamos sobre columna derecha*/
+
+section #hojaCV #cuerpo #columnaDerecha{
+    width: 100%;
+}
+
+section #hojaCV #cuerpo #columnaDerecha .separadorE{
+    border-top: 1px solid #609F89;
+}
+
+section #hojaCV #cuerpo #columnaDerecha div{
+    padding-top: 10px;
+    padding-left: 1px;
+    padding-bottom: 5px;
+}
+
+section #hojaCV #cuerpo #columnaDerecha ul{
+    padding-left: 30px;
+}
+
+section #hojaCV #cuerpo #columnaDerecha .listaIconos div{
+    list-style: none;
+    color:black;
+    display: flex;
+    
+}
+
+section #hojaCV #cuerpo #columnaDerecha .listaIconos .icono p{
+    padding-left: 10px;
+}
+
+section #hojaCV #cuerpo #columnaDerecha ul li p{
+    margin-bottom: 10px;
+    
+}
+
+
