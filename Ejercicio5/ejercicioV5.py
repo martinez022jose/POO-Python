@@ -24,8 +24,14 @@ class Pajaro():
     def enojarse(self):
         self.__ira = self.__ira * 2
     
+    def puedeDerribarObstaculo(self,obstaculo):
+        if self.__fuerza > obstaculo.resistencia:
+            return True
+        else:
+            return False
+    
     def listarPajaro(self):
-        print("Fuerza:"+str(self.__fuerza)+"\nIra:"+str(self.__ira))
+        print("Fuerza:"+ str(self.__fuerza) + "\nIra:" + str(self.__ira))
 
 class Comun(Pajaro):
     def __init__(self,ira):
@@ -149,6 +155,10 @@ class IslaPajaro():
         self.__pajaros = []
         self.__pajarosHomenajeados = []
         self.__eventos = []
+
+    @property
+    def pajaros(self):
+        return self.__pajaros
     
     def agregarPajaro(self,pajaro):
         self.__pajaros.append(pajaro)
@@ -207,6 +217,39 @@ class IslaPajaro():
         for evento in self.__eventos:
             self.realizarEvento(evento)
 
+    def pajaroDerribaAlgunaDefensa(self,pajaro,isla):
+        for defensa in isla.defensas:
+            if pajaro.fuerza > defensa.resistencia:
+                return True
+        return False
+
+    def ganaAlgunPajaroEn(self,isla):
+        for pajaro in self.__pajaros:
+            if self.pajaroDerribaDefensa(pajaro,isla):
+                return True
+        return False
+    
+    def pajaroAtacaA(self,pajaro,isla):
+        for defensa in isla.defensas:
+            if pajaro.puedeDerribarObstaculo(defensa):
+                isla.perderDefensa(defensa)
+        
+
+    def atacarA(self,isla):
+        for pajaro in self.__pajaros:
+            defensasLong = len(isla.defensas)
+            inicial = 0
+            while inicial < defensasLong:
+                self.pajaroAtacaA(pajaro,isla)
+                inicial+=1
+            
+    
+    def seRecuperoLosHuevosDe(self,isla):
+        if len(isla.defensas) == 0:
+            return True
+        return False
+            
+
 class SesionManejoIra():
     def __init__(self):
         pass
@@ -233,14 +276,29 @@ class EventosDesafortunados():
 
 class IslaCerdito():
     def __init__(self):
-        self.__paredes = []
-        self.__cerditos = []
+        self.__defensas = []
+
+    @property
+    def defensas(self):
+        return self.__defensas
     
-    def agregarPared(self,pared):
-        self.__paredes.append(pared)
+    @defensas.setter
+    def defensas(self,defensas):
+        self.__defensas = defensas
     
-    def agregarCerdito(self,cerdito):
-        self.__cerditos.append(cerdito)
+    def agregarDefensa(self,defensa):
+        self.__defensas.append(defensa)
+    
+    def perderDefensa(self,defensa):
+        index = self.__defensas.index(defensa)
+        self.__defensas.pop(index)
+
+    def listarDefensas(self):
+        for defensa in self.__defensas:
+            if isinstance(defensa,Pared):
+                defensa.listarPared()
+            if isinstance(defensa,Cerdito):
+                defensa.listarCerdito()    
 
 class Pared():
     def __init__(self,ancho):
@@ -251,10 +309,20 @@ class Pared():
     def ancho(self):
         return self.__ancho
 
+    @ancho.setter
+    def ancho(self,ancho):
+        self.__ancho = ancho
+
     @property
     def resistencia(self):
         return self.__resistencia
 
+    @resistencia.setter
+    def resistencia(self,resistencia):
+        self.__resistencia = resistencia
+
+    def listarPared(self):
+        print("Ancho: "+ str(self.__ancho) + "\nResistencia:" + str(self.__resistencia))
 
 class Vidrio(Pared):
     def __init__(self,ancho):
@@ -288,6 +356,8 @@ class Cerdito():
     def resistencia(self):
         return self.__resistencia
     
+    def listarCerdito(self):
+        print("Resistencia:"+str(self.__resistencia))
     
 
 class Obrero(Cerdito):
@@ -346,20 +416,3 @@ class Casco(Arma):
 class Escudo(Arma):
     def __init__(self,resistencia):
         super().__init__(resistencia)
-
-
-
-pajaro1 = Comun(400)
-pajaro2 = Comun(300)
-pajaro3 = Comun(200)
-evento1 = InvasionDeCerditos(100)
-isla = IslaPajaro()
-isla.agregarPajaro(pajaro1)
-isla.agregarPajaro(pajaro2)
-isla.agregarPajaro(pajaro3)
-isla.listarFuertes()
-
-isla.realizarEvento(evento1)
-print("---------------------------------")
-
-isla.listarFuertes()
